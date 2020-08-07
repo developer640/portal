@@ -1,9 +1,4 @@
 import Main from '@/components/main'
-import employeeManageRoute from './employee-manage-router'
-import selfInfoRouter from './self-info-router'
-import statRouter from './statistics-router'
-import modelRouter from './model-router'
-import manageRoute from './manage-router'
 import globalRoute from './global-router'
 
 /**
@@ -55,10 +50,5 @@ export default [
       }
     ]
   },
-  ...employeeManageRoute,
-  ...selfInfoRouter,
-  ...statRouter,
-  ...modelRouter,
-  ...manageRoute,
   ...globalRoute
 ]
