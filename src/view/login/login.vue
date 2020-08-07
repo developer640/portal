@@ -5,9 +5,10 @@
 <template>
   <div class="login">
     <div class="login-con">
-      <Card icon="log-in" title="欢迎登录" :bordered="false">
+      <Card icon="log-in" dis-hover>
+          <p slot="title" style="font-weight:bold;">欢迎登录</p>
           <p slot="extra" style="font-size: 10px;color: #c3c3c3;">
-            {{bmsVersion}}
+            {{portalVersion}}
           </p>
         <div class="form-con">
           <login-form @on-success-valid="handleSubmit" :resetLogin="reset_login"></login-form>
@@ -29,6 +30,8 @@ import ChangePwd from '_c/change-pwd'
 import LoginForm from '_c/login-form'
 import { mapActions, mapMutations } from 'vuex'
 import config from '@/config'
+import { setToken } from '@/libs/util'
+
 export default {
   components: {
     LoginForm,
@@ -36,7 +39,7 @@ export default {
   },
   data () {
     return {
-      bmsVersion: config.bmsVersion,
+      portalVersion: config.portalVersion,
       show_chg_pwd: false,
       data_saving: true,
       chgNow: false,
@@ -46,7 +49,8 @@ export default {
   methods: {
     ...mapActions([
       'handleLogin',
-      'getUserInfo'
+      'getUserInfo',
+      'getApplicationList'
     ]),
     ...mapMutations([
       'setToken'
@@ -68,6 +72,10 @@ export default {
       this.show_chg_pwd = false
       this.$nextTick(() => {
         this.data_saving = true
+        setToken('')
+        this.$router.push({
+          name: 'login'
+        })
       })
     },
     handleSubmit ({ userName, password }) {
@@ -80,11 +88,14 @@ export default {
             this.setToken(res.data.token)
             this.getUserInfo().then(res => {
               if (res.code === '000000') {
-                this.$router.push({
-                  name: this.$config.homeName
+                this.getApplicationList().then(app => {
+                  this.$router.push({
+                    name: this.$config.homeName
+                  })
+                }).catch(() => {
+                  this.resetLoginForm()
                 })
               }
-              this.resetLoginForm()
             }).catch(() => {
               this.resetLoginForm()
             })

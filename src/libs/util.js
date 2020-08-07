@@ -4,7 +4,7 @@ import config from '@/config'
 import { forEach, hasOneOf, objEqual } from '@/libs/tools'
 const { title, useI18n, cookieExpires } = config
 
-export const TOKEN_KEY = 'BMS_TOKEN'
+export const TOKEN_KEY = 'PORTAL_TOKEN'
 
 export const setToken = (token) => {
   if (token || token === '') Cookies.set(TOKEN_KEY, token, { expires: cookieExpires || 1 })

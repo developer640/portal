@@ -127,7 +127,7 @@ export default {
           changeLoginPwd(data).then(res => {
             if (res.data.code === '000000') {
               this.$Message.success({
-                content: '修改密码成功！',
+                content: '修改密码成功，请重新登录！',
                 duration: 3
               })
               this.formData.oldPwd = ''
@@ -136,7 +136,7 @@ export default {
               this.$refs['formChgPwd'].resetFields()
               this.$emit('saveSuccess')
             } else {
-              if (res.data.code === '001103') {
+              if (res.data.code.substring(3) === '103') {
                 this.$emit('saveCancel')
                 this.$Message.warning({
                   content: '你输入的旧密码不正确！',

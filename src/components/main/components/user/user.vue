@@ -23,6 +23,7 @@
 import './user.less'
 import { mapActions, mapGetters } from 'vuex'
 import ChangePwd from '_c/change-pwd'
+import { setToken } from '@/libs/util'
 
 export default {
   name: 'User',
@@ -96,6 +97,10 @@ export default {
       this.show_chg_pwd = false
       this.$nextTick(() => {
         this.data_saving = true
+        setToken('')
+        this.$router.push({
+          name: 'login'
+        })
       })
     }
   }
